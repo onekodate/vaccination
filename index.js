@@ -601,3 +601,4 @@ export async function getStaticProps() {
     revalidate: 300
   }
 }
+Home();
