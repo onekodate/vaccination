@@ -2,7 +2,16 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
-export default function Home() {
+export default async function Home() {
+  request=new XMLHttpRequest();
+  url="https://vrs-data.cio.go.jp/vaccination/opendata/latest/prefecture.ndjson";
+  request.onload=async ()=>{
+      result=request.response;
+      console.log(result);
+  };
+  request.responseType="json";
+  request.open("GET",url);
+  await request.send();
   return (
     <div className={styles.container}>
       <Head>
