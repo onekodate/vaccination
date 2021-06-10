@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import styles from '../styles/Home.module.css';
 
 export async function getStaticProps() {
@@ -15,10 +14,7 @@ export async function getStaticProps() {
 
 export default function Home(prop){
     if(prop){
-        const str=JSON.stringify(prop.arr);/*.map(val=>{
-            val.prefecture=Number(val.prefecture)-1;
-            return val;
-        }));*/
+        const str=JSON.stringify(prop.arr);
         const button=(event)=>{
             const arr=event.target.value.split(",");
             console.log(arr);
@@ -68,7 +64,7 @@ export default function Home(prop){
                         <label><input type="radio" name="status" onChange={button} value="status,2"></input><em>2回目</em></label><br></br>    
                     </div>
                     <div className="main">
-                        <p>都道府県ワクチン接種ランキング</p>
+                        <p>都道府県ワクチン接種ランキング<b id="up_date"></b></p>
                         <table className="ranking">
                             <thead>
                                 <tr>
@@ -96,6 +92,7 @@ export default function Home(prop){
                             <div id="map1"></div>
                         </div>
                         <p className="left">
+                            <a target="_blank" href="http://vrs-data.cio.go.jp/vaccination/opendata/latest/prefecture.ndjson">政府のAPI叩いています、IT強国！http://vrs-data.cio.go.jp/</a><br></br>
                             <a target="_blank" href="https://www.pref.chiba.lg.jp/koufuku/toukeidata/kourei-jinkou/documents/1todouhukennokoureikaritsu.pdf">人口データはここからhttps://www.pref.chiba.lg.jp/</a><br></br>
                             <a target="_blank" href="https://mainichi.jp/articles/20210418/k00/00m/040/107000c">#オリンピックよりもこっちのレースの方が盛り上がるに決まってるだろhttps://mainichi.jp/</a><br></br>
                             <a target="_blank" href="https://www.jacom.or.jp/column/2021/05/210506-51058.php">#速やかな市町村別ワクチン接種者数APIの公開を求めますhttps://www.jacom.or.jp/</a><br></br>
