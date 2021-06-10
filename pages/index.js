@@ -89,7 +89,7 @@ export default function Home(prop){
                         <div className="invisible" id="popup"> 
                             <p><b id="popup_pref"></b>　　<a onClick={close}>Close</a></p>
                             <p>
-                                <label><input type="radio" name="popup" onChange={button} value="popup,gender" id="popup"></input><em>性別</em></label>
+                                <label><input type="radio" name="popup" onChange={button} value="popup,gender" id="popupradio"></input><em>性別</em></label>
                                 <label><input type="radio" name="popup" onChange={button} value="popup,age"></input><em>年齢</em></label>
                                 <label><input type="radio" name="popup" onChange={button} value="popup,status"></input><em>何回目</em></label>
                             </p>
