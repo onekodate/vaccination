@@ -92,7 +92,8 @@ export default function Home(prop){
                             <div id="map1"></div>
                         </div>
                         <p className="left">
-                            <a target="_blank" href="http://vrs-data.cio.go.jp/vaccination/opendata/latest/prefecture.ndjson">政府のAPI叩いています、IT強国！http://vrs-data.cio.go.jp/</a><br></br>
+                            <a target="_blank" href="https://cio.go.jp/c19vaccine_dashboard">政府のオープンデータを利用しています。https://cio.go.jp/</a><br></br>
+                            <a target="_blank" href="https://www.kantei.go.jp/jp/headline/kansensho/vaccine.html">官邸もExcelファイルを公開していますが履歴データはありません......。https://www.kantei.go.jp/</a><br></br>
                             <a target="_blank" href="https://www.pref.chiba.lg.jp/koufuku/toukeidata/kourei-jinkou/documents/1todouhukennokoureikaritsu.pdf">人口データはここからhttps://www.pref.chiba.lg.jp/</a><br></br>
                             <a target="_blank" href="https://mainichi.jp/articles/20210418/k00/00m/040/107000c">#オリンピックよりもこっちのレースの方が盛り上がるに決まってるだろhttps://mainichi.jp/</a><br></br>
                             <a target="_blank" href="https://www.jacom.or.jp/column/2021/05/210506-51058.php">#速やかな市町村別ワクチン接種者数APIの公開を求めますhttps://www.jacom.or.jp/</a><br></br>
