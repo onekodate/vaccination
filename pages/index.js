@@ -4,9 +4,9 @@ import styles from '../styles/Home.module.css';
 export async function getStaticProps() {
     const res = await fetch("http://vrs-data.cio.go.jp/vaccination/opendata/latest/prefecture.ndjson");
     if(!res.ok) throw new Error();
-    const text = (await res.text()).split("\n").join(",");
-    const arr=JSON.parse("["+text.substr(0,text.length-1)+"]").map(val=>{
-        val.prefecture=Number(val.prefecture)-1;
+    const text = (await res.text()).replace(/\n/g,",").replace(/,$/,"");
+    const arr=JSON.parse("\["+text+"\]").map(val=>{
+        val.pref=Number(val.prefecture)-1;
         return val;
     });
     return {props:{arr}};
