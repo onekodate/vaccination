@@ -92,14 +92,14 @@ export default function Home(prop){
                             <div id="map1"></div>
                         </div>
                         <p className="left">
-                            <a target="_blank" href="https://cio.go.jp/c19vaccine_dashboard">政府のオープンデータを利用しています。https://cio.go.jp/</a><br></br>
-                            <a target="_blank" href="https://www.kantei.go.jp/jp/headline/kansensho/vaccine.html">官邸もExcelファイルを公開していますが履歴データはなし。https://www.kantei.go.jp/</a><br></br>
-                            <a target="_blank" href="https://www.soumu.go.jp/main_sosiki/jichi_gyousei/daityo/jinkou_jinkoudoutai-setaisuu.html">人口データはここからhttps://www.soumu.go.jp/</a><br></br>
-                            <a target="_blank" href="https://mainichi.jp/articles/20210418/k00/00m/040/107000c">#オリンピックよりもこっちのレースの方が盛り上がるに決まってるだろhttps://mainichi.jp/</a><br></br>
-                            <a target="_blank" href="https://www.jacom.or.jp/column/2021/05/210506-51058.php">#速やかな市町村別ワクチン接種者数APIの公開を求めますhttps://www.jacom.or.jp/</a><br></br>
-                            お問い合わせはこちらまで<a target="_blank" href="https://mstdn.beer/@onekodate">https://mstdn.beer/@onekodate</a><br></br>
-                            ソースコード<a target="_blank" href="https://github.com/onekodate/vaccination">https://github.com/onekodate/vaccination</a><br></br>
-                            参考にしたもの<a target="_blank" href="https://lets-go-vaccine-jp.vercel.app">https://lets-go-vaccine-jp.vercel.app/</a>
+                            <a target="_blank" href="https://cio.go.jp/c19vaccine_dashboard">政府のオープンデータを利用しています。</a><br></br>
+                            <a target="_blank" href="https://www.kantei.go.jp/jp/headline/kansensho/vaccine.html">官邸もExcelファイルを公開しているが履歴データはなし。</a><br></br>
+                            <a target="_blank" href="https://www.soumu.go.jp/main_sosiki/jichi_gyousei/daityo/jinkou_jinkoudoutai-setaisuu.html">人口データは令和2年1月1日住民基本台帳から。</a><br></br>
+                            <a target="_blank" href="https://mainichi.jp/articles/20210418/k00/00m/040/107000c">#オリンピックよりもこっちのレースの方が盛り上がるに決まってるだろ</a><br></br>
+                            <a target="_blank" href="https://www.jacom.or.jp/column/2021/05/210506-51058.php">#速やかな市町村別ワクチン接種者数APIの公開を求めます</a><br></br>
+                            <a target="_blank" href="https://mstdn.beer/@onekodate">お問い合わせはこちらまでhttps://mstdn.beer/@onekodate</a><br></br>
+                            <a target="_blank" href="https://github.com/onekodate/vaccination">ソースコードhttps://github.com/onekodate/vaccination</a><br></br>
+                            <a target="_blank" href="https://lets-go-vaccine-jp.vercel.app">参考にしたものhttps://lets-go-vaccine-jp.vercel.app/</a>
                         </p>
                     </div>
                 </div>
