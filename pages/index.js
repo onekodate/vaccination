@@ -1,6 +1,13 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css';
 
+export async function getStaticPaths() {
+    return {
+        paths: [],
+        fallback: true,
+    };
+}  
+
 export async function getStaticProps() {
     const res = await fetch("http://vrs-data.cio.go.jp/vaccination/opendata/latest/prefecture.ndjson");
     if(!res.ok) throw new Error();
@@ -9,7 +16,12 @@ export async function getStaticProps() {
         val.pref=Number(val.prefecture)-1;
         return val;
     });
-    return {props:{arr}};
+    return {
+        props:{
+            arr
+        },
+        revalidate:3600,
+    };
 }
 
 export default function Home(prop){
@@ -97,7 +109,7 @@ export default function Home(prop){
                             <a target="_blank" href="https://www.soumu.go.jp/main_sosiki/jichi_gyousei/daityo/jinkou_jinkoudoutai-setaisuu.html">人口データは令和2年1月1日住民基本台帳から。</a><br></br>
                             <a target="_blank" href="https://mainichi.jp/articles/20210418/k00/00m/040/107000c">#オリンピックよりもこっちのレースの方が盛り上がるに決まってるだろ</a><br></br>
                             <a target="_blank" href="https://www.jacom.or.jp/column/2021/05/210506-51058.php">#速やかな市町村別ワクチン接種者数APIの公開を求めます</a><br></br>
-                            <a target="_blank" href="https://mstdn.beer/@onekodate">お問い合わせはこちらまでhttps://mstdn.beer/@onekodate</a><br></br>
+                            <a target="_blank" href="https://mstdn.beer/@onekodate">お問い合わせはこちらまで気軽に報告要望ください。</a><br></br>
                             <a target="_blank" href="https://github.com/onekodate/vaccination">ソースコードhttps://github.com/onekodate/vaccination</a><br></br>
                             <a target="_blank" href="https://lets-go-vaccine-jp.vercel.app">参考にしたものhttps://lets-go-vaccine-jp.vercel.app/</a>
                         </p>
