@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css';
-
-export async function getServerSideProps() {
+/*
+export async function getStaticProps() {
     const res = await fetch("http://vrs-data.cio.go.jp/vaccination/opendata/latest/prefecture.ndjson");
     if(!res.ok) throw new Error();
     const text = (await res.text()).replace(/\n/g,",").replace(/,$/,"");
@@ -9,6 +9,7 @@ export async function getServerSideProps() {
         val.pref=Number(val.prefecture)-1;
         return val;
     });
+    console.log(arr);
     return {
         props:{
             arr
@@ -16,8 +17,9 @@ export async function getServerSideProps() {
 //        revalidate:1,
     };
 }
-
-export default function Home(prop){
+*/
+//export default 
+function Home({prop}){
     if(prop){
         const str=JSON.stringify(prop.arr);
         const button=(event)=>{
@@ -114,5 +116,24 @@ export default function Home(prop){
                 <script src="https://onekodate.web.fc2.com/vaccination.js"></script>
             </div>
         );
-    }else return (<div>Hello</div>);
+    }else return (<div>Loading...</div>);
 }
+
+Home.getInitialProps=async ()=>{
+    const res = await fetch("http://vrs-data.cio.go.jp/vaccination/opendata/latest/prefecture.ndjson");
+    if(!res.ok) throw new Error();
+    const text = (await res.text()).replace(/\n/g,",").replace(/,$/,"");
+    const arr=JSON.parse("\["+text+"\]").map(val=>{
+        val.pref=Number(val.prefecture)-1;
+        return val;
+    });
+    console.log(arr);
+    return {
+        prop:{
+                arr
+            },
+//        revalidate:1,
+    };
+}
+
+export default Home;
