@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css';
-/*
+
 export async function getStaticProps() {
     const res = await fetch("http://vrs-data.cio.go.jp/vaccination/opendata/latest/prefecture.ndjson");
     if(!res.ok) throw new Error();
@@ -9,22 +9,34 @@ export async function getStaticProps() {
         val.pref=Number(val.prefecture)-1;
         return val;
     });
-    console.log(arr);
     return {
         props:{
             arr
         },
-//        revalidate:1,
+        revalidate:1,
+    };
+}
+/*
+export async function getServerSideProps(){
+    const res = await fetch("http://vrs-data.cio.go.jp/vaccination/opendata/latest/prefecture.ndjson");
+    if(!res.ok) throw new Error();
+    const text = (await res.text()).replace(/\n/g,",").replace(/,$/,"");
+    const arr=JSON.parse("\["+text+"\]").map(val=>{
+        val.pref=Number(val.prefecture)-1;
+        return val;
+    });
+    return {
+        props:{
+                arr
+            },
     };
 }
 */
-//export default 
-function Home({prop}){
-    if(prop){
-        const str=JSON.stringify(prop.arr);
+function Home(props){
+    if(props){
+        const str=JSON.stringify(props.arr);
         const button=(event)=>{
             const arr=event.target.value.split(",");
-            //console.log(arr);
             if(arr[1]=="true") arr[1]=true;
             else if(arr[1]=="false") arr[1]=false;
             setting[arr[0]]=arr[1];
@@ -119,21 +131,5 @@ function Home({prop}){
     }else return (<div>Loading...</div>);
 }
 
-Home.getInitialProps=async ()=>{
-    const res = await fetch("http://vrs-data.cio.go.jp/vaccination/opendata/latest/prefecture.ndjson");
-    if(!res.ok) throw new Error();
-    const text = (await res.text()).replace(/\n/g,",").replace(/,$/,"");
-    const arr=JSON.parse("\["+text+"\]").map(val=>{
-        val.pref=Number(val.prefecture)-1;
-        return val;
-    });
-    //console.log(arr);
-    return {
-        prop:{
-                arr
-            },
-//        revalidate:1,
-    };
-}
 
 export default Home;
