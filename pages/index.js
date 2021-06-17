@@ -25,6 +25,7 @@ export async function getServerSideProps(){
         val.pref=Number(val.prefecture)-1;
         return val;
     });
+//    console.log(arr);
     return {
         props:{
             arr
