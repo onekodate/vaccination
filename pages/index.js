@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css';
-
+/*
 export async function getStaticProps() {
     const res = await fetch("http://vrs-data.cio.go.jp/vaccination/opendata/latest/prefecture.ndjson");
     if(!res.ok) throw new Error();
@@ -17,7 +17,7 @@ export async function getStaticProps() {
     };
 }
 /*/
-export async function getInitialProps(){
+export async function getServerSideProps(){
     const res = await fetch("http://vrs-data.cio.go.jp/vaccination/opendata/latest/prefecture.ndjson");
     if(!res.ok) throw new Error();
     const text = (await res.text()).replace(/\n/g,",").replace(/,$/,"");
@@ -25,14 +25,14 @@ export async function getInitialProps(){
         val.pref=Number(val.prefecture)-1;
         return val;
     });
-//    console.log(arr);
+    console.log(arr);
     return {
         props:{
             arr
         },
     };
 }
-*/
+
 function Home(props){
     if(props){
         const str=JSON.stringify(props.arr);
