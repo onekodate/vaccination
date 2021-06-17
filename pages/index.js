@@ -24,7 +24,7 @@ function Home({prop}){
         const str=JSON.stringify(prop.arr);
         const button=(event)=>{
             const arr=event.target.value.split(",");
-            console.log(arr);
+            //console.log(arr);
             if(arr[1]=="true") arr[1]=true;
             else if(arr[1]=="false") arr[1]=false;
             setting[arr[0]]=arr[1];
@@ -127,7 +127,7 @@ Home.getInitialProps=async ()=>{
         val.pref=Number(val.prefecture)-1;
         return val;
     });
-    console.log(arr);
+    //console.log(arr);
     return {
         prop:{
                 arr
