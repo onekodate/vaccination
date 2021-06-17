@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css';
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
     const res = await fetch("http://vrs-data.cio.go.jp/vaccination/opendata/latest/prefecture.ndjson");
     if(!res.ok) throw new Error();
     const text = (await res.text()).replace(/\n/g,",").replace(/,$/,"");
@@ -13,7 +13,7 @@ export async function getStaticProps() {
         props:{
             arr
         },
-        revalidate:1,
+//        revalidate:1,
     };
 }
 
