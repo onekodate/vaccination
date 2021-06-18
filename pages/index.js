@@ -18,11 +18,12 @@ export async function getStaticProps() {
 }
 /*/
 export async function getServerSideProps(){
-    const res = await fetch("http://vrs-data.cio.go.jp/vaccination/opendata/latest/prefecture.ndjson");
+    const url="http://vrs-data.cio.go.jp/vaccination/opendata/latest/prefecture.ndjson";
+    const res = await fetch(url);
     if(!res.ok) throw new Error();
     const text = (await res.text()).replace(/\n/g,",").replace(/,$/,"");
     const arr=JSON.parse("\["+text+"\]").map(val=>{
-        val.pref=Number(val.prefecture)-1;
+        val.pref=Number(val.prefecture);
         return val;
     });
     console.log(arr);
