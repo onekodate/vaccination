@@ -14,7 +14,7 @@ on:
   # 毎日日本時間の 11時 に GitHub Actions が実行される (cron の時刻は UST)
   # 実行の際に参照されるブランチは上記の default で指定したものが使用される
   schedule:
-    - cron:  '0,50 0,1 * * *'
+    - cron:  '11 1 * * *'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
