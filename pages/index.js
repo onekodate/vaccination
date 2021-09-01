@@ -133,5 +133,4 @@ function Home(props){
     }else return (<div>Loading...</div>);
 }
 
-
 export default Home;
