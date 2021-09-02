@@ -5,6 +5,7 @@ export async function getStaticProps() {
     const res = await fetch("http://vrs-data.cio.go.jp/vaccination/opendata/latest/prefecture.ndjson");
     if(!res.ok) throw new Error();
     const text = (await res.text()).replace(/\n/g,",").replace(/,$/,"");
+    console.log(text);
     const arr=JSON.parse("\["+text+"\]").map(val=>{
         val.pref=Number(val.prefecture);
         return val;
@@ -70,19 +71,19 @@ function Home(props){
                 </Head>
                 <div className="body">
                     <div className="menu">
-                        <label><input type="radio" name="count" onChange={button} value="count,true" id="count"></input><em>回数</em></label>
-                        <label><input type="radio" name="count" onChange={button} value="count,false"></input><em>比率</em></label><br></br>
-                        <label><input type="radio" name="density" onChange={button} value="density,true" id="density"></input><em>日別</em></label>
-                        <label><input type="radio" name="density" onChange={button} value="density,false"></input><em>累積</em></label><br></br>
+                        <label><input type="radio" name="count" onChange={button} value="count,false" id="count"></input><em>比率</em></label>
+                        <label><input type="radio" name="count" onChange={button} value="count,true"></input><em>回数</em></label><br></br>
+                        <label><input type="radio" name="density" onChange={button} value="density,false" id="density"></input><em>累積</em></label>
+                        <label><input type="radio" name="density" onChange={button} value="density,true"></input><em>日別</em></label><br></br>
                         <label><input type="radio" name="gender" onChange={button} value="gender,Both" id="gender"></input><em>全性別</em></label>
                         <label><input type="radio" name="gender" onChange={button} value="gender,M"></input><em>男性</em></label>
                         <label><input type="radio" name="gender" onChange={button} value="gender,F"></input><em>女性</em></label><br></br>
                         <label><input type="radio" name="age" onChange={button} value="age,all" id="age"></input><em>全年齢</em></label>
                         <label><input type="radio" name="age" onChange={button} value="age,65-"></input><em>65+</em></label>
                         <label><input type="radio" name="age" onChange={button} value="age,-64"></input><em>64-</em></label><br></br>
-                        <label><input type="radio" name="status" onChange={button} value="status,0" id="status"></input><em>総回数</em></label>
+                        <label><input type="radio" name="status" onChange={button} value="status,0"></input><em>総回数</em></label>
                         <label><input type="radio" name="status" onChange={button} value="status,1"></input><em>1回目</em></label>
-                        <label><input type="radio" name="status" onChange={button} value="status,2"></input><em>2回目</em></label><br></br>    
+                        <label><input type="radio" name="status" onChange={button} value="status,2" id="status"></input><em>2回目</em></label><br></br>    
                     </div>
                     <div className="main">
                         <p>都道府県ワクチン接種ランキング<b id="up_date"></b></p>
