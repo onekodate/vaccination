@@ -20,8 +20,6 @@ export async function getStaticProps() {
 export default function Home(props){
     if(props){
         const str=JSON.stringify(props.arr);
-        return (<div>{str.slice(0,100)}</div>)
-        console.log(str.substr(0,10));
         const button=(event)=>{
             const arr=event.target.value.split(",");
             if(arr[1]=="true") arr[1]=true;
@@ -29,17 +27,17 @@ export default function Home(props){
             setting[arr[0]]=arr[1];
             if(result){
                 if(["popup","pref"].includes(arr[0])){
-                    popup();
+                    console.log("popup()");
                 }else if(arr[0]=="ranking"){
-                    map2();
+                    console.log("map2()");
                 }else{
-                    ranking();
-                    map2();
+                    console.log("ranking()");
+                    console.log("map2()");
                 }
-                if(elem("popup").className=="popup") popup();
-            }else console.log(setting);
+                if(elem("popup").className=="popup") console.log("popup()");
+            }else console.log("setting");
         }
-        const close=(event)=>{
+        const close=()=>{
             elem("popup").className="invisible";
         }
         return (
