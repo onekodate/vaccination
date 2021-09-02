@@ -15,6 +15,7 @@ export async function getStaticProps() {
             status:val.status,
         };
     });
+    console.log(arr.length);
     return {
         props:{
             arr
@@ -25,7 +26,7 @@ export async function getStaticProps() {
 
 function Home(props){
     if(props){
-        const str=JSON.stringify(props.arr.slice(0,10000));
+        const str=JSON.stringify(props.arr.slice(0,60000));
 //        return (<div>{str.slice(0,1000)}</div>)
         const button=(event)=>{
             const arr=event.target.value.split(",");
@@ -99,8 +100,8 @@ function Home(props){
                         <div className="invisible" id="popup"> 
                             <p><b id="popup_pref"></b>　　<a onClick={close}>Close</a></p>
                             <p>
-                                <label><input type="radio" name="popup" onChange={button} value="popup,gender" id="popupradio"></input><em>性別</em></label>
-                                <label><input type="radio" name="popup" onChange={button} value="popup,age"></input><em>年齢</em></label>
+                                <label><input type="radio" name="popup" onChange={button} value="popup,gender"></input><em>性別</em></label>
+                                <label><input type="radio" name="popup" onChange={button} value="popup,age" id="popupradio"></input><em>年齢</em></label>
                                 <label><input type="radio" name="popup" onChange={button} value="popup,status"></input><em>何回目</em></label>
                             </p>
                             <div id="map1"></div>
