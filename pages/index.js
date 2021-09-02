@@ -22,7 +22,6 @@ function Home(props){
         const str=JSON.stringify(props.arr);
 //        return (<div>{str.slice(0,1000)}</div>)
         const button=(event)=>{
-/*
             const arr=event.target.value.split(",");
             if(arr[1]=="true") arr[1]=true;
             else if(arr[1]=="false") arr[1]=false;
@@ -38,10 +37,9 @@ function Home(props){
                 }
                 if(elem("popup").className=="popup") popup();
             }else console.log(setting);
-*/
         }
         const close=()=>{
-//            elem("popup").className="invisible";
+            elem("popup").className="invisible";
         }
         return (
             <div className={styles.container}>
