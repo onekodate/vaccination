@@ -19,7 +19,7 @@ export async function getStaticProps() {
 
 function Home(props){
     if(props){
-        const str=JSON.stringify(props.arr);
+        const str=JSON.stringify(props.arr.slice(0,100));
         return (<div>{str.slice(0,10000)}</div>)
         const button=(event)=>{
             const arr=event.target.value.split(",");
@@ -50,6 +50,9 @@ function Home(props){
                     <script src="https://d3js.org/d3.v6.js"></script>
                     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
                     <script src="https://onekodate.web.fc2.com/vaccination.js"></script>
+                    <script>
+                        result={str};
+                    </script>
                 </Head>
                 <div className="body">
                     <div className="menu">
