@@ -19,8 +19,8 @@ export async function getStaticProps() {
 
 function Home(props){
     if(props){
-        const str=JSON.stringify(props.arr.slice(0,100));
-        return (<div>{str.slice(0,10000)}</div>)
+        const str=JSON.stringify(props.arr.slice(0,1000));
+//        return (<div>{str.slice(0,10000)}</div>)
         const button=(event)=>{
             const arr=event.target.value.split(",");
             if(arr[1]=="true") arr[1]=true;
