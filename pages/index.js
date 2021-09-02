@@ -5,7 +5,6 @@ export async function getStaticProps() {
     const res = await fetch("http://vrs-data.cio.go.jp/vaccination/opendata/latest/prefecture.ndjson");
     if(!res.ok) throw new Error();
     const text = (await res.text()).replace(/\n/g,",").replace(/,$/,"");
-    console.log(text.substr(0,10));
     const arr=JSON.parse("\["+text+"\]").map(val=>{
         val.pref=Number(val.prefecture);
         return val;
@@ -19,9 +18,9 @@ export async function getStaticProps() {
 }
 
 export default function Home(props){
-    /* if(props){
-      const str=JSON.stringify(props.arr);
-        str="";
+    if(props){
+        const str=JSON.stringify(props.arr);
+        return (<div>{str.slice(0,100)}</div>)
         console.log(str.substr(0,10));
         const button=(event)=>{
             const arr=event.target.value.split(",");
@@ -116,5 +115,5 @@ export default function Home(props){
                 <script src="https://onekodate.web.fc2.com/vaccination.js"></script>
             </div>
         );
-    }else */ return (<div>Loading...</div>);
+    }else return (<div>Loading...</div>);
 }
