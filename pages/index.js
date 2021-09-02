@@ -50,6 +50,9 @@ function Home(props){
                     <script src="https://d3js.org/d3.v6.js"></script>
                     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
                     <script src="https://onekodate.web.fc2.com/vaccination.js"></script>
+                <script>
+                    result={str};
+                </script>
                 </Head>
                 <div className="body">
                     <div className="menu">
