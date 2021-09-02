@@ -5,7 +5,7 @@ export async function getStaticProps() {
     const res = await fetch("http://vrs-data.cio.go.jp/vaccination/opendata/latest/prefecture.ndjson");
     if(!res.ok) throw new Error();
     const text = (await res.text()).replace(/\n/g,",").replace(/,$/,"");
-    console.log(text);
+
     const arr=JSON.parse("\["+text+"\]").map(val=>{
         val.pref=Number(val.prefecture);
         return val;
