@@ -17,9 +17,11 @@ export async function getStaticProps() {
         revalidate:1,
     };
 }
+
 export default function Home(props){
-    if(props){
-        const str=JSON.stringify(props.arr);
+    /* if(props){
+      const str=JSON.stringify(props.arr);
+        str="";
         console.log(str.substr(0,10));
         const button=(event)=>{
             const arr=event.target.value.split(",");
@@ -114,5 +116,5 @@ export default function Home(props){
                 <script src="https://onekodate.web.fc2.com/vaccination.js"></script>
             </div>
         );
-    }else return (<div>Loading...</div>);
+    }else */ return (<div>Loading...</div>);
 }
