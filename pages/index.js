@@ -51,7 +51,7 @@ function Home(props){
                     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
                     <script src="https://onekodate.web.fc2.com/vaccination.js"></script>
                 <script>
-                    result={str};
+                    var result={str};
                 </script>
                 </Head>
                 <div className="body">
