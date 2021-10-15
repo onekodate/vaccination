@@ -93,8 +93,8 @@ function Home(props){
                             </tbody>
                         </table>
                         <p>
-                            <label><input type="radio" name="ranking" onChange={button} value="ranking,false"></input><em>絶対数</em></label>
-                            <label><input type="radio" name="ranking" onChange={button} value="ranking,true" id="ranking"></input><em>順位</em></label><br></br>
+                            <label><input type="radio" name="ranking" onChange={button} value="ranking,false" id="ranking"></input><em>絶対数</em></label>
+                            <label><input type="radio" name="ranking" onChange={button} value="ranking,true"></input><em>順位</em></label><br></br>
                         </p>
                         <div id="map2"></div>
                         <div className="invisible" id="popup"> 
