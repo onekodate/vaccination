@@ -14,7 +14,7 @@ export async function getStaticProps() {
             pref:Number(val.prefecture),
             status:val.status,
         };
-    });
+    }).filter(val=>val.date<"2021-10-01");
     console.log(arr.length);
     return {
         props:{
