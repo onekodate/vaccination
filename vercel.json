@@ -1,7 +1,0 @@
-{
-  "rewrites": [
-    { "source":  "/dev/api/pref",
-      "destination": "http://vrs-data.cio.go.jp/vaccination/opendata/latest/prefecture.ndjson"
-    }
-  ]
-}
