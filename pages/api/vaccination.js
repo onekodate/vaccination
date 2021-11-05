@@ -40,7 +40,7 @@ var setting={
     pref:0,
 };
 const button=(arr)=>{
-    setting[arr[0]]=arr[1];
+    setting[arr[0]]=(arr[0]=="status")?Number(arr[1]):arr[1];
     if(result){
         if(["popup","pref"].includes(arr[0])){
             popup();
@@ -178,6 +178,57 @@ const popup=()=>{
         return svg.node();
     })();
 };
+const counter=(countdata)=>{
+    const latest_date=dates[dates.length-1];
+    const counts=setting.density?((countdata)=>{
+        const count1=countdata.filter(val=>{
+            return (val.date==latest_date)
+            &&setting.gender=="Both"?true:(val.gender==setting.gender)
+            &&setting.age=="all"?true:(val.age==setting.age)
+            &&setting.status==0?true:(val.status==setting.status)
+        });
+        const count2=countdata.filter(val=>{
+            return (val.date==dates[dates.length-2])
+            &&setting.gender=="Both"?true:(val.gender==setting.gender)
+            &&setting.age=="all"?true:(val.age==setting.age)
+            &&setting.status==0?true:(val.status==setting.status)
+        });
+        return prefectures.map((val,idx)=>{
+            const pref1=(idx==0)?count1:count1.filter(v=>v.pref==idx);
+            const pref2=(idx==0)?count2:count2.filter(v=>v.pref==idx);
+            const c=pref1.reduce((acc,cur)=>acc+cur.count,0);
+            const cex=pref2.reduce((acc,cur)=>acc+cur.count,0);
+            return {
+                pref:val.pref,
+                count:c,
+                ratio:c/val[setting.gender][setting.age]*100,
+                count_ex:cex,
+                ratio_ex:cex/val[setting.gender][setting.age]*100,
+            };
+        });
+    })(countdata)
+    :((countdata)=>{
+        const count=countdata.filter(val=>
+            (setting.gender=="Both"?true:(val.gender==setting.gender))
+            &&(setting.age=="all"?true:(val.age==setting.age))
+            &&(setting.status==0?true:(val.status==setting.status))
+        );    
+        return prefectures.map((val,idx)=>{
+            const pref=(idx==0)?count:count.filter(v=>v.pref==idx);
+            const c=pref.reduce((acc,cur)=>acc+cur.count,0);
+            const cex=c-pref.filter(v=>v.date==latest_date).reduce((acc,cur)=>acc+cur.count,0);
+            return {
+                pref:val.pref,
+                count:c,
+                ratio:c/val[setting.gender][setting.age]*100,
+                count_ex:cex,
+                ratio_ex:cex/val[setting.gender][setting.age]*100,
+            };
+        });
+
+    })(countdata);
+    return counts;
+};
 const ranking=()=>{
     if(!dates){
         dates=(()=>{
@@ -194,89 +245,57 @@ const ranking=()=>{
             return dates;
         })();
     }
-    const counter=(countdata)=>{
-        if(setting.density) countdata=countdata.filter(val=>val.date==countdata[countdata.length-1].date);
-        if(setting.gender!="Both") countdata=countdata.filter(val=>val.gender==setting.gender);
-        if(setting.age!="all") countdata=countdata.filter(val=>val.age==setting.age);
-        if(setting.status!=0) countdata=countdata.filter(val=>val.status==setting.status);
-        const counts=prefectures.map((val,idx)=>{
-            let pref=countdata;
-            if(idx!=0) pref=countdata.filter(v=>v.pref==idx);
-            val.count=pref.reduce((acc,cur)=>acc+cur.count,0);
-            val.ratio=val.count/val[setting.gender][setting.age]*100;
-            return val;
-        });
-        /*
-        if(setting.age=="all"){
-            counts.forEach(val=>{
-                val.ratio=val.count/val.all*100;
-            });
-        }else if(setting.age=="65-"){
-            counts.forEach(val=>{
-                val.ratio=val.count/val.plus65*100;
-            });
-        }else if(setting.age=="-64"){
-            counts.forEach(val=>{
-                val.ratio=val.count/(val.all-val.plus65)*100;
-            });
-        }
-        */
-        if(setting.count) counts.sort((a,b)=>b.count-a.count);
-        else counts.sort((a,b)=>b.ratio-a.ratio);
-        return counts.map(val=>{
-            return {
-                pref:val.pref,
-                count:val.count,
-                ratio:val.ratio,
-            };
-        });
-    };
-    const count1=counter(result);
-    const count2=counter(result.slice(0,result.map(val=>val.date).indexOf(result[result.length-1].date)));
-    const count2_pref=count2.filter(v=>v.pref!="全国");
-    count1.filter(val=>val.pref!="全国").forEach((val,idx)=>{
-        val.rank=count2_pref.map(v=>v.pref).indexOf(val.pref)-idx;
-    });
-    if(setting.density) count1.forEach(val=>val.ratio=val.ratio.toFixed(3)+"%");
-    else count1.forEach(val=>val.ratio=val.ratio.toFixed(1)+"%");
-    count1.forEach(val=>val.count=String(val.count)+" 回");
-    const zenkoku=count1.map(val=>val.pref).indexOf("全国");
-    elem("table").innerHTML=count1.map((val,idx)=>{
-        let rank=idx;
-        let div="<div class=stay></div>";
-        if(idx==zenkoku){
-            rank="";
-            val.rank=0;
-            div="";
-        }
-        else if(idx<zenkoku) rank=idx+1;
-        if(val.rank<0) div="<div class=Arrow-Bottom></div>";
-        else if(val.rank>0) div="<div class=Arrow-Top></div>";
-        const num=prefectures.map(v=>v.pref).indexOf(val.pref);
-        return "<tr onclick=button(['pref',"+String(num)+"]); align=right><td>"+[rank,div].join("</td><td>")+"</td><td class=lefter>"+[Math.abs(val.rank),val.pref,val.count,val.ratio].join("</td><td>")+"</td></tr>";
+    const count=counter(result);
+    if(setting.count) count.sort((a,b)=>b.count_ex-a.count_ex);
+    else count.sort((a,b)=>b.ratio_ex-a.ratio_ex);
+    const count2_pref=count.map(val=>val.pref).filter(val=>val!="全国");
+    if(setting.count) count.sort((a,b)=>b.count-a.count);
+    else count.sort((a,b)=>b.ratio-a.ratio);
+    const zenkoku=count.map(val=>val.pref).indexOf("全国");
+    const pref_num=prefectures.map(v=>v.pref);
+    elem("table").innerHTML=count.map((val,idx)=>{
+        const i=idx>zenkoku?idx-1:idx;
+        const value={
+            pref:val.pref,
+            count:String(val.count)+"回",
+            ratio:setting.density?val.ratio.toFixed(3)+"%":val.ratio.toFixed(1)+"%",
+            rank:(idx==zenkoku)?0:count2_pref.indexOf(val.pref)-i,
+        };
+        const rank=(idx==zenkoku)?""
+            :(idx>zenkoku)?idx+1:idx;
+        const div=(idx==zenkoku)?""
+            :(value.rank<0)?"<div class=Arrow-Bottom></div>"
+            :(value.rank>0)?"<div class=Arrow-Top></div>"
+            :"<div class=stay></div>";
+        const num=pref_num.indexOf(val.pref);
+        return "<tr onclick=button(['pref',"+String(num)+"]); align=right><td>"
+            +[rank,div].join("</td><td>")+"</td><td class=lefter>"
+            +[Math.abs(value.rank),value.pref,value.count,value.ratio].join("</td><td>")
+            +"</td></tr>";
     }).join("");
 };
 const map2=()=>{
-    let countdata=result;
-    if(setting.gender!="Both") countdata=countdata.filter(val=>val.gender==setting.gender);
-    if(setting.age!="all") countdata=countdata.filter(val=>val.age==setting.age);
-    if(setting.status!=0) countdata=countdata.filter(val=>val.status==setting.status);
-    const counts=prefectures.map((val,idx)=>{
+    const countdata=result.filter(val=>{
+        return ((setting.gender=="Both")?true:(val.gender==setting.gender))
+        &&((setting.age=="all")?true:(val.age==setting.age))
+        &&((setting.status==0)?true:(val.status==setting.status))
+    });
+    const counts=prefectures.slice(1,).map((val,idx)=>{
+        const pref=countdata.filter(v=>v.pref==idx+1);
         return {
             pref:val.pref,
-            values:dates.map(date=> countdata.filter(v=>v.date==date&&v.pref==idx).reduce((acc,cur)=>acc+cur.count,0)),
+            values:dates.map(date=>{
+                const value=setting.density
+                ?pref
+                    .filter(v=>v.date==date)
+                    .reduce((acc,cur)=>acc+cur.count,0)
+                :pref
+                    .filter(v=>v.date<=date)
+                    .reduce((acc,cur)=>acc+cur.count,0);
+                return setting.count?value:value/prefectures[idx+1][setting.gender][setting.age]*100;
+            }),
         };
-    }).slice(1,);
-    if(!setting.density){
-        counts.forEach(val=>{
-            val.values=val.values.map((v,idx,arr)=>arr.slice(0,idx+1).reduce((acc,cur)=>cur+acc,0));
-        });
-    } 
-    if(!setting.count){
-        counts.forEach((val,idx)=>{
-            val.values=val.values.map(v=>v/prefectures[idx+1][setting.gender][setting.age]*100);
-        });
-    }
+    });
     if(setting.ranking){
         dates.forEach((key,idx)=>{
             counts.forEach(val=>{
@@ -396,13 +415,17 @@ const map2=()=>{
 };
 
 const start=()=>{
-    elem("count").checked="checked";
-    elem("density").checked="checked";
-    elem("gender").checked="checked";
-    elem("age").checked="checked";
-    elem("status").checked="checked";
-    elem("ranking").checked="checked";
-    elem("popupradio").checked="checked";
+    ["count","density","gender","age","status","ranking","popupradio"].forEach(val=>elem(val).checked=true);
+    result=result.map(val=>{
+        return {
+            age:val.a=="t"?"65-":"-64",
+            count:val.c,
+            date:val.d,
+            gender:val.g,
+            pref:val.p,
+            status:val.s,
+        };
+    });
     ranking();
     map2();
     elem("up_date").innerText="("+dates[dates.length-1]+")";
