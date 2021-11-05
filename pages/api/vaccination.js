@@ -262,7 +262,7 @@ const ranking=()=>{
             rank:(idx==zenkoku)?0:count2_pref.indexOf(val.pref)-i,
         };
         const rank=(idx==zenkoku)?""
-            :(idx>zenkoku)?idx-1
+            :(idx>zenkoku)?idx
             :idx+1;
         const div=(idx==zenkoku)?""
             :(value.rank<0)?"<div class=Arrow-Bottom></div>"
