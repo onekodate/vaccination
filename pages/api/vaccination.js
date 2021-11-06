@@ -55,29 +55,40 @@ const button=(arr)=>{
 }
 const popup=()=>{
     const num=setting.pref;
-    if(elem("popup").className="invisible") elem("popup").className="popup";
-    elem("popup_pref").innerText=prefectures[num].pref;
-    const data=dates.map((date,idx)=>{
-        let a;
-        if(setting.popup=="gender") a={date:0,M:0,F:0,U:0};
-        else if(setting.popup=="age") a={date:0,"65-":0,"-64":0,"UNK":0};
-        else if(setting.popup=="status") a={date:0,1:0,2:0};
-        a.date=new Date(date);
-        let countdata=result;
-        if(setting.density) countdata=result.filter(val=>val.date==date);
-        else countdata=result.slice(0,result.map(val=>val.date).indexOf(dates[idx+1]));
-        if(num!=0) countdata=countdata.filter(val=>val.pref==num);
-        const mum=(setting.count?100:prefectures[num].Both.all);
-        countdata.forEach((val)=>{
-            a[val[setting.popup]]+=val.count/mum*100;
+    const pref=result.filter(val=>(num==0?true:val.pref==num));
+    const mum=(setting.count?100:prefectures[num].Both.all);
+    const data=dates.map(date=>{
+        const a=setting.popup=="gender"
+            ?{
+                date:new Date(date),
+                M:0,
+                F:0,
+                U:0,
+            }:setting.popup=="age"
+            ?{
+                date:new Date(date),
+                "65-":0,
+                "-64":0,
+                "UNK":0,
+            }:{
+                date:new Date(date),
+                1:0,
+                2:0,
+            };
+        pref.forEach((val)=>{
+            if(setting.density?val.date==date:val.date<=date){
+                a[val[setting.popup]]+=val.count/mum*100;
+            } 
         });
         return a;
     });
+    if(elem("popup").className="invisible") elem("popup").className="popup";
+    elem("popup_pref").innerText=prefectures[num].pref;
     data.y="Counts";
     data.columns=Object.keys(data[0]).filter(val=>val!="date");
     data.columns.unshift("date");
     d3.select("#map1").select("svg").remove();
-    const charts=(()=>{
+    (()=>{
         const height=300,width=600;
         const margin={
             top:20,
@@ -146,8 +157,7 @@ const popup=()=>{
                 .on("mousemove",moved)
                 .on("mouseenter",entered)
                 .on("mouseleave",left);
-            const line=svg.append("g")
-            //    .attr("display","none");
+            const line=svg.append("g");
             line.append("line")
                 .attr("y1",height)
                 .attr("y2",0)
@@ -175,7 +185,6 @@ const popup=()=>{
             .append("title")
                 .text(key=>key);
         svg.call(hover,path);
-        return svg.node();
     })();
 };
 const counter=(countdata)=>{
@@ -183,15 +192,15 @@ const counter=(countdata)=>{
     const counts=setting.density?((countdata)=>{
         const count1=countdata.filter(val=>{
             return (val.date==latest_date)
-            &&setting.gender=="Both"?true:(val.gender==setting.gender)
-            &&setting.age=="all"?true:(val.age==setting.age)
-            &&setting.status==0?true:(val.status==setting.status)
+            &&(setting.gender=="Both"?true:(val.gender==setting.gender))
+            &&(setting.age=="all"?true:(val.age==setting.age))
+            &&(setting.status==0?true:(val.status==setting.status))
         });
         const count2=countdata.filter(val=>{
             return (val.date==dates[dates.length-2])
-            &&setting.gender=="Both"?true:(val.gender==setting.gender)
-            &&setting.age=="all"?true:(val.age==setting.age)
-            &&setting.status==0?true:(val.status==setting.status)
+            &&(setting.gender=="Both"?true:(val.gender==setting.gender))
+            &&(setting.age=="all"?true:(val.age==setting.age))
+            &&(setting.status==0?true:(val.status==setting.status))
         });
         return prefectures.map((val,idx)=>{
             const pref1=(idx==0)?count1:count1.filter(v=>v.pref==idx);
@@ -313,7 +322,7 @@ const map2=()=>{
         series:counts,
         dates:dates.map(d3.utcParse("%Y-%m-%d")),
     };
-    const chart=(()=>{
+    (()=>{
         d3.select("#map2").select("svg").remove();
         const height=600,width=800;
         const margin={
@@ -411,7 +420,6 @@ const map2=()=>{
                 .style("mix-blend-mode","multiply")
                 .attr("d",d=>line(d.values));
         svg.call(hover,path);
-        return svg.node();
     })();
 };
 
