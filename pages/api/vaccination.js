@@ -427,12 +427,12 @@ const start=()=>{
     ["count","density","gender","age","status","ranking","popupradio"].forEach(val=>elem(val).checked=true);
     result=result.map(val=>{
         return {
-            age:val.a=="t"?"65-":"-64",
-            count:val.c,
-            date:val.d,
-            gender:val.g,
-            pref:val.p,
-            status:val.s,
+            age:val[0]=="t"?"65-":"-64",
+            count:val[1],
+            date:val[2],
+            gender:val[3],
+            pref:val[4],
+            status:val[5],
         };
     });
     ranking();
