@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import styles from '../styles/Home.module.css';
+// import styles from '../styles/Home.module.css';
 
 export async function getStaticProps() {
 	const res = await fetch("https://data.vrs.digital.go.jp/vaccination/opendata/latest/prefecture.ndjson");
